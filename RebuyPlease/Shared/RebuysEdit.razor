@@ -1,0 +1,88 @@
+﻿<br />
+
+<EditForm Model="@addPlayerModel" OnValidSubmit="@HandlePlayerAdd">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText id="name" @bind-Value="addPlayerModel.Name" />
+    <button type="submit">Add player</button>
+</EditForm>
+
+<br />
+
+<EditForm Model="@addTournamentModel" OnValidSubmit="@HandleTournamentAdd">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText id="name" @bind-Value="addTournamentModel.Name" />
+    <button type="submit">Add tournament</button>
+</EditForm>
+
+<br />
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th></th>
+            @foreach (var tournament in rebuys.Tournaments.OrderBy(t => t.Value.CreatedAt))
+            {
+                <th>@tournament.Key</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var player in rebuys.Players.OrderBy(p => p.Value.CreatedAt))
+        {
+            <tr>
+                <td>@player.Key</td>
+                @foreach (var tournament in rebuys.Tournaments)
+                {
+                    <td>
+                        <span class="rebuyamount">@player.Value.GetRebuysForTournament(tournament.Key)</span>
+                        &nbsp;&nbsp;
+
+                        <span class="rebuybuttons">
+                            <a href="#" class="oi oi-plus iconic-lg" @onclick="() => AddRebuy(player.Key, tournament.Key, 1)"></a>
+                            <a href="#" class="oi oi-minus" @onclick="() => AddRebuy(player.Key, tournament.Key, -1)"></a>
+                        </span>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+
+<td>
+    <h4>Audit log</h4>
+    <ul>
+        @foreach (var log in rebuys.AuditLog)
+        {
+            <li>@log</li>
+        }
+    </ul>
+</td>
+
+
+
+<style>
+    /*    .main {
+            background: #343a40;
+            color:white
+        }
+
+    */
+
+    .rebuyamount {
+        font-size: large;
+    }
+
+    .rebuybuttons {
+        font-size: medium;
+    }
+
+    .table > tbody > tr > td > a:link {
+        text-decoration: none;
+    }
+</style>

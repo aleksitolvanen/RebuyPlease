@@ -1,0 +1,20 @@
+﻿@page "/results"
+
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+<h3>Results</h3>
+<div id="content">
+    <iframe width="100%" height="100%" frameborder="0" src="@Configuration["ResultUri"]"></iframe>
+</div>
+
+<style type="text/css">
+
+    .content {
+        height: 100%;
+    }
+
+    #content {
+        height: 95%;
+    }
+</style>
